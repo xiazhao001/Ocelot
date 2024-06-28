@@ -1,0 +1,69 @@
+
+//  //*****************************多地址********************************
+////访问: https://localhost:7253/T9001/Users/All
+////访问: https://localhost:7253/T9002/Users/All
+////访问: https://localhost:7253/T9003/Users/All
+{
+  "Routes": [
+    {
+      "DownstreamPathTemplate": "/swagger/cas/swagger.json",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "127.0.0.1",
+          "Port": 9001 //服务端口
+        }
+      ],
+      "UpstreamPathTemplate": "/swagger/cas",
+      "UpstreamHttpMethod": [ "Get" ],
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      }
+    },
+    {
+      "DownstreamPathTemplate": "/swagger/acis/swagger.json",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "127.0.0.1",
+          "Port": 9002 //服务端口
+        }
+      ],
+      "UpstreamPathTemplate": "/swagger/acis",
+      "UpstreamHttpMethod": [ "Get" ],
+      "LoadBalancerOptions": {
+        "Type": "RoundRobin"
+      }
+    },
+
+    {
+      "DownstreamPathTemplate": "/cas/{url}", //服务地址,Url变量
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "127.0.0.1",
+          "Port": 9001 //服务端口
+        }
+      ],
+      "UpstreamPathTemplate": "/cas/{url}", //网关地址: Url变量
+      "UpstreamHttpMethod": [ "Get", "Post" ]
+    },
+    {
+      "DownstreamPathTemplate": "/acis/{url}", //服务地址,Url变量
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "127.0.0.1",
+          "Port": 9002 //服务端口
+        }
+      ],
+      "UpstreamPathTemplate": "/acis/{url}", //网关地址: Url变量
+      "UpstreamHttpMethod": [ "Get", "Post" ]
+    }
+    
+  ]
+}
+
+
+
+
